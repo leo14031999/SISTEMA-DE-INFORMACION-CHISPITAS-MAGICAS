@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditEventoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditEventoLabel_idevento}" for="idevento" />
+                    <h:inputText id="idevento" value="#{eventoController.selected.idevento}" title="#{bundle.EditEventoTitle_idevento}" required="true" requiredMessage="#{bundle.EditEventoRequiredMessage_idevento}"/>
+                    <h:outputLabel value="#{bundle.EditEventoLabel_nombreevento}" for="nombreevento" />
+                    <h:inputText id="nombreevento" value="#{eventoController.selected.nombreevento}" title="#{bundle.EditEventoTitle_nombreevento}" required="true" requiredMessage="#{bundle.EditEventoRequiredMessage_nombreevento}"/>
+                    <h:outputLabel value="#{bundle.EditEventoLabel_descripcion}" for="descripcion" />
+                    <h:inputTextarea rows="4" cols="30" id="descripcion" value="#{eventoController.selected.descripcion}" title="#{bundle.EditEventoTitle_descripcion}" required="true" requiredMessage="#{bundle.EditEventoRequiredMessage_descripcion}"/>
+                    <h:outputLabel value="#{bundle.EditEventoLabel_estado}" for="estado" />
+                    <h:inputText id="estado" value="#{eventoController.selected.estado}" title="#{bundle.EditEventoTitle_estado}" required="true" requiredMessage="#{bundle.EditEventoRequiredMessage_estado}"/>
+                    <h:outputLabel value="#{bundle.EditEventoLabel_precio}" for="precio" />
+                    <h:inputText id="precio" value="#{eventoController.selected.precio}" title="#{bundle.EditEventoTitle_precio}" required="true" requiredMessage="#{bundle.EditEventoRequiredMessage_precio}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{eventoController.update}" value="#{bundle.EditEventoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditEventoViewLink}"/>
+                <br />
+                <h:commandLink action="#{eventoController.prepareList}" value="#{bundle.EditEventoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditEventoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

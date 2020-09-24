@@ -6,15 +6,14 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,16 +26,21 @@ import javax.validation.constraints.Size;
 @Table(name = "cliente")
 @NamedQueries({
     @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c"),
+    @NamedQuery(name = "Cliente.findByIdcliente", query = "SELECT c FROM Cliente c WHERE c.idcliente = :idcliente"),
     @NamedQuery(name = "Cliente.findByNombre", query = "SELECT c FROM Cliente c WHERE c.nombre = :nombre"),
     @NamedQuery(name = "Cliente.findByApellido", query = "SELECT c FROM Cliente c WHERE c.apellido = :apellido"),
-    @NamedQuery(name = "Cliente.findByDirecci\u00f3n", query = "SELECT c FROM Cliente c WHERE c.direcci\u00f3n = :direcci\u00f3n"),
+    @NamedQuery(name = "Cliente.findByDireccion", query = "SELECT c FROM Cliente c WHERE c.direccion = :direccion"),
     @NamedQuery(name = "Cliente.findByCorreo", query = "SELECT c FROM Cliente c WHERE c.correo = :correo"),
     @NamedQuery(name = "Cliente.findByTelefono", query = "SELECT c FROM Cliente c WHERE c.telefono = :telefono"),
-    @NamedQuery(name = "Cliente.findByActividadEconomica", query = "SELECT c FROM Cliente c WHERE c.actividadEconomica = :actividadEconomica"),
-    @NamedQuery(name = "Cliente.findByIdcliente", query = "SELECT c FROM Cliente c WHERE c.idcliente = :idcliente")})
+    @NamedQuery(name = "Cliente.findByActividad", query = "SELECT c FROM Cliente c WHERE c.actividad = :actividad")})
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "Idcliente")
+    private Integer idcliente;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -50,8 +54,8 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "Direcci\u00f3n")
-    private String dirección;
+    @Column(name = "Direccion")
+    private String direccion;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -65,15 +69,8 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "Actividad Economica")
-    private String actividadEconomica;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Idcliente")
-    private Integer idcliente;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcliente")
-    private Collection<Pagos> pagosCollection;
+    @Column(name = "Actividad")
+    private String actividad;
 
     public Cliente() {
     }
@@ -82,14 +79,22 @@ public class Cliente implements Serializable {
         this.idcliente = idcliente;
     }
 
-    public Cliente(Integer idcliente, String nombre, String apellido, String dirección, String correo, String telefono, String actividadEconomica) {
+    public Cliente(Integer idcliente, String nombre, String apellido, String direccion, String correo, String telefono, String actividad) {
         this.idcliente = idcliente;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.dirección = dirección;
+        this.direccion = direccion;
         this.correo = correo;
         this.telefono = telefono;
-        this.actividadEconomica = actividadEconomica;
+        this.actividad = actividad;
+    }
+
+    public Integer getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(Integer idcliente) {
+        this.idcliente = idcliente;
     }
 
     public String getNombre() {
@@ -108,12 +113,12 @@ public class Cliente implements Serializable {
         this.apellido = apellido;
     }
 
-    public String getDirección() {
-        return dirección;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setDirección(String dirección) {
-        this.dirección = dirección;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getCorreo() {
@@ -132,28 +137,12 @@ public class Cliente implements Serializable {
         this.telefono = telefono;
     }
 
-    public String getActividadEconomica() {
-        return actividadEconomica;
+    public String getActividad() {
+        return actividad;
     }
 
-    public void setActividadEconomica(String actividadEconomica) {
-        this.actividadEconomica = actividadEconomica;
-    }
-
-    public Integer getIdcliente() {
-        return idcliente;
-    }
-
-    public void setIdcliente(Integer idcliente) {
-        this.idcliente = idcliente;
-    }
-
-    public Collection<Pagos> getPagosCollection() {
-        return pagosCollection;
-    }
-
-    public void setPagosCollection(Collection<Pagos> pagosCollection) {
-        this.pagosCollection = pagosCollection;
+    public void setActividad(String actividad) {
+        this.actividad = actividad;
     }
 
     @Override

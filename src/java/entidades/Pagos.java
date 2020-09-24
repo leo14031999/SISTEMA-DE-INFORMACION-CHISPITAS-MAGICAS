@@ -9,14 +9,13 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -28,60 +27,43 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Pagos.findAll", query = "SELECT p FROM Pagos p"),
     @NamedQuery(name = "Pagos.findByIdpagos", query = "SELECT p FROM Pagos p WHERE p.idpagos = :idpagos"),
     @NamedQuery(name = "Pagos.findByNombrecliente", query = "SELECT p FROM Pagos p WHERE p.nombrecliente = :nombrecliente"),
-    @NamedQuery(name = "Pagos.findByTipodeDocumento", query = "SELECT p FROM Pagos p WHERE p.tipodeDocumento = :tipodeDocumento"),
-    @NamedQuery(name = "Pagos.findByN\u00famerodeIdentificaci\u00f3n", query = "SELECT p FROM Pagos p WHERE p.n\u00famerodeIdentificaci\u00f3n = :n\u00famerodeIdentificaci\u00f3n"),
-    @NamedQuery(name = "Pagos.findByTipodeevento", query = "SELECT p FROM Pagos p WHERE p.tipodeevento = :tipodeevento"),
-    @NamedQuery(name = "Pagos.findByPersonalEncargado", query = "SELECT p FROM Pagos p WHERE p.personalEncargado = :personalEncargado"),
-    @NamedQuery(name = "Pagos.findByValorTotal", query = "SELECT p FROM Pagos p WHERE p.valorTotal = :valorTotal")})
+    @NamedQuery(name = "Pagos.findByTipodocumento", query = "SELECT p FROM Pagos p WHERE p.tipodocumento = :tipodocumento"),
+    @NamedQuery(name = "Pagos.findByNumeroidentificacion", query = "SELECT p FROM Pagos p WHERE p.numeroidentificacion = :numeroidentificacion"),
+    @NamedQuery(name = "Pagos.findByTipoevento", query = "SELECT p FROM Pagos p WHERE p.tipoevento = :tipoevento"),
+    @NamedQuery(name = "Pagos.findByPersonalencargado", query = "SELECT p FROM Pagos p WHERE p.personalencargado = :personalencargado"),
+    @NamedQuery(name = "Pagos.findByValortotal", query = "SELECT p FROM Pagos p WHERE p.valortotal = :valortotal")})
 public class Pagos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "Idpagos")
     private Integer idpagos;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Nombre_cliente")
-    private String nombrecliente;
+    @Column(name = "Nombrecliente")
+    private int nombrecliente;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Tipo de Documento")
-    private String tipodeDocumento;
+    @Column(name = "Tipodocumento")
+    private int tipodocumento;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "N\u00famero de Identificaci\u00f3n")
-    private String númerodeIdentificación;
+    @Column(name = "Numeroidentificacion")
+    private int numeroidentificacion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Tipo de evento")
-    private String tipodeevento;
+    @Column(name = "Tipoevento")
+    private int tipoevento;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Personal Encargado")
-    private String personalEncargado;
+    @Column(name = "Personalencargado")
+    private int personalencargado;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Valor Total")
-    private int valorTotal;
-    @JoinColumn(name = "Idcliente", referencedColumnName = "Idcliente")
-    @ManyToOne(optional = false)
-    private Cliente idcliente;
-    @JoinColumn(name = "Idcotizador", referencedColumnName = "Idcotizador")
-    @ManyToOne(optional = false)
-    private Cotizador idcotizador;
-    @JoinColumn(name = "Idevento", referencedColumnName = "Idevento")
-    @ManyToOne(optional = false)
-    private Evento idevento;
-    @JoinColumn(name = "Idpersonal", referencedColumnName = "Idpersonal")
-    @ManyToOne(optional = false)
-    private Personal idpersonal;
+    @Column(name = "Valortotal")
+    private int valortotal;
 
     public Pagos() {
     }
@@ -90,14 +72,14 @@ public class Pagos implements Serializable {
         this.idpagos = idpagos;
     }
 
-    public Pagos(Integer idpagos, String nombrecliente, String tipodeDocumento, String númerodeIdentificación, String tipodeevento, String personalEncargado, int valorTotal) {
+    public Pagos(Integer idpagos, int nombrecliente, int tipodocumento, int numeroidentificacion, int tipoevento, int personalencargado, int valortotal) {
         this.idpagos = idpagos;
         this.nombrecliente = nombrecliente;
-        this.tipodeDocumento = tipodeDocumento;
-        this.númerodeIdentificación = númerodeIdentificación;
-        this.tipodeevento = tipodeevento;
-        this.personalEncargado = personalEncargado;
-        this.valorTotal = valorTotal;
+        this.tipodocumento = tipodocumento;
+        this.numeroidentificacion = numeroidentificacion;
+        this.tipoevento = tipoevento;
+        this.personalencargado = personalencargado;
+        this.valortotal = valortotal;
     }
 
     public Integer getIdpagos() {
@@ -108,84 +90,52 @@ public class Pagos implements Serializable {
         this.idpagos = idpagos;
     }
 
-    public String getNombrecliente() {
+    public int getNombrecliente() {
         return nombrecliente;
     }
 
-    public void setNombrecliente(String nombrecliente) {
+    public void setNombrecliente(int nombrecliente) {
         this.nombrecliente = nombrecliente;
     }
 
-    public String getTipodeDocumento() {
-        return tipodeDocumento;
+    public int getTipodocumento() {
+        return tipodocumento;
     }
 
-    public void setTipodeDocumento(String tipodeDocumento) {
-        this.tipodeDocumento = tipodeDocumento;
+    public void setTipodocumento(int tipodocumento) {
+        this.tipodocumento = tipodocumento;
     }
 
-    public String getNúmerodeIdentificación() {
-        return númerodeIdentificación;
+    public int getNumeroidentificacion() {
+        return numeroidentificacion;
     }
 
-    public void setNúmerodeIdentificación(String númerodeIdentificación) {
-        this.númerodeIdentificación = númerodeIdentificación;
+    public void setNumeroidentificacion(int numeroidentificacion) {
+        this.numeroidentificacion = numeroidentificacion;
     }
 
-    public String getTipodeevento() {
-        return tipodeevento;
+    public int getTipoevento() {
+        return tipoevento;
     }
 
-    public void setTipodeevento(String tipodeevento) {
-        this.tipodeevento = tipodeevento;
+    public void setTipoevento(int tipoevento) {
+        this.tipoevento = tipoevento;
     }
 
-    public String getPersonalEncargado() {
-        return personalEncargado;
+    public int getPersonalencargado() {
+        return personalencargado;
     }
 
-    public void setPersonalEncargado(String personalEncargado) {
-        this.personalEncargado = personalEncargado;
+    public void setPersonalencargado(int personalencargado) {
+        this.personalencargado = personalencargado;
     }
 
-    public int getValorTotal() {
-        return valorTotal;
+    public int getValortotal() {
+        return valortotal;
     }
 
-    public void setValorTotal(int valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-    public Cliente getIdcliente() {
-        return idcliente;
-    }
-
-    public void setIdcliente(Cliente idcliente) {
-        this.idcliente = idcliente;
-    }
-
-    public Cotizador getIdcotizador() {
-        return idcotizador;
-    }
-
-    public void setIdcotizador(Cotizador idcotizador) {
-        this.idcotizador = idcotizador;
-    }
-
-    public Evento getIdevento() {
-        return idevento;
-    }
-
-    public void setIdevento(Evento idevento) {
-        this.idevento = idevento;
-    }
-
-    public Personal getIdpersonal() {
-        return idpersonal;
-    }
-
-    public void setIdpersonal(Personal idpersonal) {
-        this.idpersonal = idpersonal;
+    public void setValortotal(int valortotal) {
+        this.valortotal = valortotal;
     }
 
     @Override

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateCotizadorTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_idcotizador}" for="idcotizador" />
+                    <h:inputText id="idcotizador" value="#{cotizadorController.selected.idcotizador}" title="#{bundle.CreateCotizadorTitle_idcotizador}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_idcotizador}"/>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_nombrecliente}" for="nombrecliente" />
+                    <h:inputText id="nombrecliente" value="#{cotizadorController.selected.nombrecliente}" title="#{bundle.CreateCotizadorTitle_nombrecliente}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_nombrecliente}"/>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_condicionpago}" for="condicionpago" />
+                    <h:inputText id="condicionpago" value="#{cotizadorController.selected.condicionpago}" title="#{bundle.CreateCotizadorTitle_condicionpago}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_condicionpago}"/>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_fechaentrega}" for="fechaentrega" />
+                    <h:inputText id="fechaentrega" value="#{cotizadorController.selected.fechaentrega}" title="#{bundle.CreateCotizadorTitle_fechaentrega}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_fechaentrega}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_validesoferta}" for="validesoferta" />
+                    <h:inputText id="validesoferta" value="#{cotizadorController.selected.validesoferta}" title="#{bundle.CreateCotizadorTitle_validesoferta}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_validesoferta}"/>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_tipoevento}" for="tipoevento" />
+                    <h:inputText id="tipoevento" value="#{cotizadorController.selected.tipoevento}" title="#{bundle.CreateCotizadorTitle_tipoevento}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_tipoevento}"/>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_peticion}" for="peticion" />
+                    <h:inputText id="peticion" value="#{cotizadorController.selected.peticion}" title="#{bundle.CreateCotizadorTitle_peticion}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_peticion}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{cotizadorController.create}" value="#{bundle.CreateCotizadorSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{cotizadorController.prepareList}" value="#{bundle.CreateCotizadorShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateCotizadorIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

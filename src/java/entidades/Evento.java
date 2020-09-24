@@ -6,16 +6,15 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,28 +28,28 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Evento.findAll", query = "SELECT e FROM Evento e"),
     @NamedQuery(name = "Evento.findByIdevento", query = "SELECT e FROM Evento e WHERE e.idevento = :idevento"),
-    @NamedQuery(name = "Evento.findByNombredeevento", query = "SELECT e FROM Evento e WHERE e.nombredeevento = :nombredeevento"),
+    @NamedQuery(name = "Evento.findByNombreevento", query = "SELECT e FROM Evento e WHERE e.nombreevento = :nombreevento"),
     @NamedQuery(name = "Evento.findByEstado", query = "SELECT e FROM Evento e WHERE e.estado = :estado"),
     @NamedQuery(name = "Evento.findByPrecio", query = "SELECT e FROM Evento e WHERE e.precio = :precio")})
 public class Evento implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "Idevento")
     private Integer idevento;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "Nombre de evento")
-    private String nombredeevento;
+    @Column(name = "Nombreevento")
+    private String nombreevento;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
-    @Column(name = "Descripci\u00f3n")
-    private String descripción;
+    @Column(name = "Descripcion")
+    private String descripcion;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -60,8 +59,6 @@ public class Evento implements Serializable {
     @NotNull
     @Column(name = "Precio")
     private int precio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idevento")
-    private Collection<Pagos> pagosCollection;
 
     public Evento() {
     }
@@ -70,10 +67,10 @@ public class Evento implements Serializable {
         this.idevento = idevento;
     }
 
-    public Evento(Integer idevento, String nombredeevento, String descripción, String estado, int precio) {
+    public Evento(Integer idevento, String nombreevento, String descripcion, String estado, int precio) {
         this.idevento = idevento;
-        this.nombredeevento = nombredeevento;
-        this.descripción = descripción;
+        this.nombreevento = nombreevento;
+        this.descripcion = descripcion;
         this.estado = estado;
         this.precio = precio;
     }
@@ -86,20 +83,20 @@ public class Evento implements Serializable {
         this.idevento = idevento;
     }
 
-    public String getNombredeevento() {
-        return nombredeevento;
+    public String getNombreevento() {
+        return nombreevento;
     }
 
-    public void setNombredeevento(String nombredeevento) {
-        this.nombredeevento = nombredeevento;
+    public void setNombreevento(String nombreevento) {
+        this.nombreevento = nombreevento;
     }
 
-    public String getDescripción() {
-        return descripción;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripción(String descripción) {
-        this.descripción = descripción;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getEstado() {
@@ -116,14 +113,6 @@ public class Evento implements Serializable {
 
     public void setPrecio(int precio) {
         this.precio = precio;
-    }
-
-    public Collection<Pagos> getPagosCollection() {
-        return pagosCollection;
-    }
-
-    public void setPagosCollection(Collection<Pagos> pagosCollection) {
-        this.pagosCollection = pagosCollection;
     }
 
     @Override

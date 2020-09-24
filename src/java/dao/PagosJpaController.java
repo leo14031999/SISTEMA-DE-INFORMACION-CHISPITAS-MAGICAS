@@ -6,21 +6,16 @@
 package dao;
 
 import dao.exceptions.NonexistentEntityException;
-import dao.exceptions.PreexistingEntityException;
 import dao.exceptions.RollbackFailureException;
+import entidades.Pagos;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entidades.Cliente;
-import entidades.Cotizador;
-import entidades.Evento;
-import entidades.Pagos;
-import entidades.Personal;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
 
 /**
@@ -40,57 +35,18 @@ public class PagosJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Pagos pagos) throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create(Pagos pagos) throws RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            Cliente idcliente = pagos.getIdcliente();
-            if (idcliente != null) {
-                idcliente = em.getReference(idcliente.getClass(), idcliente.getIdcliente());
-                pagos.setIdcliente(idcliente);
-            }
-            Cotizador idcotizador = pagos.getIdcotizador();
-            if (idcotizador != null) {
-                idcotizador = em.getReference(idcotizador.getClass(), idcotizador.getIdcotizador());
-                pagos.setIdcotizador(idcotizador);
-            }
-            Evento idevento = pagos.getIdevento();
-            if (idevento != null) {
-                idevento = em.getReference(idevento.getClass(), idevento.getIdevento());
-                pagos.setIdevento(idevento);
-            }
-            Personal idpersonal = pagos.getIdpersonal();
-            if (idpersonal != null) {
-                idpersonal = em.getReference(idpersonal.getClass(), idpersonal.getIdpersonal());
-                pagos.setIdpersonal(idpersonal);
-            }
             em.persist(pagos);
-            if (idcliente != null) {
-                idcliente.getPagosCollection().add(pagos);
-                idcliente = em.merge(idcliente);
-            }
-            if (idcotizador != null) {
-                idcotizador.getPagosCollection().add(pagos);
-                idcotizador = em.merge(idcotizador);
-            }
-            if (idevento != null) {
-                idevento.getPagosCollection().add(pagos);
-                idevento = em.merge(idevento);
-            }
-            if (idpersonal != null) {
-                idpersonal.getPagosCollection().add(pagos);
-                idpersonal = em.merge(idpersonal);
-            }
             utx.commit();
         } catch (Exception ex) {
             try {
                 utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findPagos(pagos.getIdpagos()) != null) {
-                throw new PreexistingEntityException("Pagos " + pagos + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -105,64 +61,7 @@ public class PagosJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
-            Pagos persistentPagos = em.find(Pagos.class, pagos.getIdpagos());
-            Cliente idclienteOld = persistentPagos.getIdcliente();
-            Cliente idclienteNew = pagos.getIdcliente();
-            Cotizador idcotizadorOld = persistentPagos.getIdcotizador();
-            Cotizador idcotizadorNew = pagos.getIdcotizador();
-            Evento ideventoOld = persistentPagos.getIdevento();
-            Evento ideventoNew = pagos.getIdevento();
-            Personal idpersonalOld = persistentPagos.getIdpersonal();
-            Personal idpersonalNew = pagos.getIdpersonal();
-            if (idclienteNew != null) {
-                idclienteNew = em.getReference(idclienteNew.getClass(), idclienteNew.getIdcliente());
-                pagos.setIdcliente(idclienteNew);
-            }
-            if (idcotizadorNew != null) {
-                idcotizadorNew = em.getReference(idcotizadorNew.getClass(), idcotizadorNew.getIdcotizador());
-                pagos.setIdcotizador(idcotizadorNew);
-            }
-            if (ideventoNew != null) {
-                ideventoNew = em.getReference(ideventoNew.getClass(), ideventoNew.getIdevento());
-                pagos.setIdevento(ideventoNew);
-            }
-            if (idpersonalNew != null) {
-                idpersonalNew = em.getReference(idpersonalNew.getClass(), idpersonalNew.getIdpersonal());
-                pagos.setIdpersonal(idpersonalNew);
-            }
             pagos = em.merge(pagos);
-            if (idclienteOld != null && !idclienteOld.equals(idclienteNew)) {
-                idclienteOld.getPagosCollection().remove(pagos);
-                idclienteOld = em.merge(idclienteOld);
-            }
-            if (idclienteNew != null && !idclienteNew.equals(idclienteOld)) {
-                idclienteNew.getPagosCollection().add(pagos);
-                idclienteNew = em.merge(idclienteNew);
-            }
-            if (idcotizadorOld != null && !idcotizadorOld.equals(idcotizadorNew)) {
-                idcotizadorOld.getPagosCollection().remove(pagos);
-                idcotizadorOld = em.merge(idcotizadorOld);
-            }
-            if (idcotizadorNew != null && !idcotizadorNew.equals(idcotizadorOld)) {
-                idcotizadorNew.getPagosCollection().add(pagos);
-                idcotizadorNew = em.merge(idcotizadorNew);
-            }
-            if (ideventoOld != null && !ideventoOld.equals(ideventoNew)) {
-                ideventoOld.getPagosCollection().remove(pagos);
-                ideventoOld = em.merge(ideventoOld);
-            }
-            if (ideventoNew != null && !ideventoNew.equals(ideventoOld)) {
-                ideventoNew.getPagosCollection().add(pagos);
-                ideventoNew = em.merge(ideventoNew);
-            }
-            if (idpersonalOld != null && !idpersonalOld.equals(idpersonalNew)) {
-                idpersonalOld.getPagosCollection().remove(pagos);
-                idpersonalOld = em.merge(idpersonalOld);
-            }
-            if (idpersonalNew != null && !idpersonalNew.equals(idpersonalOld)) {
-                idpersonalNew.getPagosCollection().add(pagos);
-                idpersonalNew = em.merge(idpersonalNew);
-            }
             utx.commit();
         } catch (Exception ex) {
             try {
@@ -196,26 +95,6 @@ public class PagosJpaController implements Serializable {
                 pagos.getIdpagos();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The pagos with id " + id + " no longer exists.", enfe);
-            }
-            Cliente idcliente = pagos.getIdcliente();
-            if (idcliente != null) {
-                idcliente.getPagosCollection().remove(pagos);
-                idcliente = em.merge(idcliente);
-            }
-            Cotizador idcotizador = pagos.getIdcotizador();
-            if (idcotizador != null) {
-                idcotizador.getPagosCollection().remove(pagos);
-                idcotizador = em.merge(idcotizador);
-            }
-            Evento idevento = pagos.getIdevento();
-            if (idevento != null) {
-                idevento.getPagosCollection().remove(pagos);
-                idevento = em.merge(idevento);
-            }
-            Personal idpersonal = pagos.getIdpersonal();
-            if (idpersonal != null) {
-                idpersonal.getPagosCollection().remove(pagos);
-                idpersonal = em.merge(idpersonal);
             }
             em.remove(pagos);
             utx.commit();

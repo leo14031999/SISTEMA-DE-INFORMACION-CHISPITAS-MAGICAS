@@ -6,16 +6,15 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,53 +29,47 @@ import javax.validation.constraints.Size;
 @Table(name = "cotizador")
 @NamedQueries({
     @NamedQuery(name = "Cotizador.findAll", query = "SELECT c FROM Cotizador c"),
-    @NamedQuery(name = "Cotizador.findByNombredelcliente", query = "SELECT c FROM Cotizador c WHERE c.nombredelcliente = :nombredelcliente"),
-    @NamedQuery(name = "Cotizador.findByCondici\u00f3ndepago", query = "SELECT c FROM Cotizador c WHERE c.condici\u00f3ndepago = :condici\u00f3ndepago"),
-    @NamedQuery(name = "Cotizador.findByFechadeentrega", query = "SELECT c FROM Cotizador c WHERE c.fechadeentrega = :fechadeentrega"),
-    @NamedQuery(name = "Cotizador.findByValidesdelaoferta", query = "SELECT c FROM Cotizador c WHERE c.validesdelaoferta = :validesdelaoferta"),
-    @NamedQuery(name = "Cotizador.findByTipodeevento", query = "SELECT c FROM Cotizador c WHERE c.tipodeevento = :tipodeevento"),
-    @NamedQuery(name = "Cotizador.findByPetici\u00f3n", query = "SELECT c FROM Cotizador c WHERE c.petici\u00f3n = :petici\u00f3n"),
-    @NamedQuery(name = "Cotizador.findByIdcotizador", query = "SELECT c FROM Cotizador c WHERE c.idcotizador = :idcotizador")})
+    @NamedQuery(name = "Cotizador.findByIdcotizador", query = "SELECT c FROM Cotizador c WHERE c.idcotizador = :idcotizador"),
+    @NamedQuery(name = "Cotizador.findByNombrecliente", query = "SELECT c FROM Cotizador c WHERE c.nombrecliente = :nombrecliente"),
+    @NamedQuery(name = "Cotizador.findByCondicionpago", query = "SELECT c FROM Cotizador c WHERE c.condicionpago = :condicionpago"),
+    @NamedQuery(name = "Cotizador.findByFechaentrega", query = "SELECT c FROM Cotizador c WHERE c.fechaentrega = :fechaentrega"),
+    @NamedQuery(name = "Cotizador.findByValidesoferta", query = "SELECT c FROM Cotizador c WHERE c.validesoferta = :validesoferta"),
+    @NamedQuery(name = "Cotizador.findByTipoevento", query = "SELECT c FROM Cotizador c WHERE c.tipoevento = :tipoevento"),
+    @NamedQuery(name = "Cotizador.findByPeticion", query = "SELECT c FROM Cotizador c WHERE c.peticion = :peticion")})
 public class Cotizador implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Nombre del cliente")
-    private String nombredelcliente;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Condici\u00f3n de pago")
-    private String condicióndepago;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Fecha de entrega")
-    @Temporal(TemporalType.DATE)
-    private Date fechadeentrega;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Valides de la oferta")
-    @Temporal(TemporalType.DATE)
-    private Date validesdelaoferta;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Tipo de evento")
-    private String tipodeevento;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Petici\u00f3n")
-    private String petición;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "Idcotizador")
     private Integer idcotizador;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcotizador")
-    private Collection<Pagos> pagosCollection;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 11)
+    @Column(name = "Nombrecliente")
+    private String nombrecliente;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "condicionpago")
+    private int condicionpago;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Fechaentrega")
+    @Temporal(TemporalType.DATE)
+    private Date fechaentrega;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Validesoferta")
+    private int validesoferta;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Tipoevento")
+    private int tipoevento;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Peticion")
+    private int peticion;
 
     public Cotizador() {
     }
@@ -85,62 +78,14 @@ public class Cotizador implements Serializable {
         this.idcotizador = idcotizador;
     }
 
-    public Cotizador(Integer idcotizador, String nombredelcliente, String condicióndepago, Date fechadeentrega, Date validesdelaoferta, String tipodeevento, String petición) {
+    public Cotizador(Integer idcotizador, String nombrecliente, int condicionpago, Date fechaentrega, int validesoferta, int tipoevento, int peticion) {
         this.idcotizador = idcotizador;
-        this.nombredelcliente = nombredelcliente;
-        this.condicióndepago = condicióndepago;
-        this.fechadeentrega = fechadeentrega;
-        this.validesdelaoferta = validesdelaoferta;
-        this.tipodeevento = tipodeevento;
-        this.petición = petición;
-    }
-
-    public String getNombredelcliente() {
-        return nombredelcliente;
-    }
-
-    public void setNombredelcliente(String nombredelcliente) {
-        this.nombredelcliente = nombredelcliente;
-    }
-
-    public String getCondicióndepago() {
-        return condicióndepago;
-    }
-
-    public void setCondicióndepago(String condicióndepago) {
-        this.condicióndepago = condicióndepago;
-    }
-
-    public Date getFechadeentrega() {
-        return fechadeentrega;
-    }
-
-    public void setFechadeentrega(Date fechadeentrega) {
-        this.fechadeentrega = fechadeentrega;
-    }
-
-    public Date getValidesdelaoferta() {
-        return validesdelaoferta;
-    }
-
-    public void setValidesdelaoferta(Date validesdelaoferta) {
-        this.validesdelaoferta = validesdelaoferta;
-    }
-
-    public String getTipodeevento() {
-        return tipodeevento;
-    }
-
-    public void setTipodeevento(String tipodeevento) {
-        this.tipodeevento = tipodeevento;
-    }
-
-    public String getPetición() {
-        return petición;
-    }
-
-    public void setPetición(String petición) {
-        this.petición = petición;
+        this.nombrecliente = nombrecliente;
+        this.condicionpago = condicionpago;
+        this.fechaentrega = fechaentrega;
+        this.validesoferta = validesoferta;
+        this.tipoevento = tipoevento;
+        this.peticion = peticion;
     }
 
     public Integer getIdcotizador() {
@@ -151,12 +96,52 @@ public class Cotizador implements Serializable {
         this.idcotizador = idcotizador;
     }
 
-    public Collection<Pagos> getPagosCollection() {
-        return pagosCollection;
+    public String getNombrecliente() {
+        return nombrecliente;
     }
 
-    public void setPagosCollection(Collection<Pagos> pagosCollection) {
-        this.pagosCollection = pagosCollection;
+    public void setNombrecliente(String nombrecliente) {
+        this.nombrecliente = nombrecliente;
+    }
+
+    public int getCondicionpago() {
+        return condicionpago;
+    }
+
+    public void setCondicionpago(int condicionpago) {
+        this.condicionpago = condicionpago;
+    }
+
+    public Date getFechaentrega() {
+        return fechaentrega;
+    }
+
+    public void setFechaentrega(Date fechaentrega) {
+        this.fechaentrega = fechaentrega;
+    }
+
+    public int getValidesoferta() {
+        return validesoferta;
+    }
+
+    public void setValidesoferta(int validesoferta) {
+        this.validesoferta = validesoferta;
+    }
+
+    public int getTipoevento() {
+        return tipoevento;
+    }
+
+    public void setTipoevento(int tipoevento) {
+        this.tipoevento = tipoevento;
+    }
+
+    public int getPeticion() {
+        return peticion;
+    }
+
+    public void setPeticion(int peticion) {
+        this.peticion = peticion;
     }
 
     @Override
