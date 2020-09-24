@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateInventarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_idinventario}" for="idinventario" />
+                    <h:inputText id="idinventario" value="#{inventarioController.selected.idinventario}" title="#{bundle.CreateInventarioTitle_idinventario}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_idinventario}"/>
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_nombre}" for="nombre" />
+                    <h:inputText id="nombre" value="#{inventarioController.selected.nombre}" title="#{bundle.CreateInventarioTitle_nombre}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_nombre}"/>
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_marca}" for="marca" />
+                    <h:inputText id="marca" value="#{inventarioController.selected.marca}" title="#{bundle.CreateInventarioTitle_marca}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_marca}"/>
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_accesorios}" for="accesorios" />
+                    <h:inputText id="accesorios" value="#{inventarioController.selected.accesorios}" title="#{bundle.CreateInventarioTitle_accesorios}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_accesorios}"/>
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_proveedor}" for="proveedor" />
+                    <h:inputText id="proveedor" value="#{inventarioController.selected.proveedor}" title="#{bundle.CreateInventarioTitle_proveedor}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_proveedor}"/>
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_telefono}" for="telefono" />
+                    <h:inputText id="telefono" value="#{inventarioController.selected.telefono}" title="#{bundle.CreateInventarioTitle_telefono}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_telefono}"/>
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_ubicación}" for="ubicación" />
+                    <h:inputText id="ubicación" value="#{inventarioController.selected.ubicación}" title="#{bundle.CreateInventarioTitle_ubicación}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_ubicación}"/>
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_categoria}" for="categoria" />
+                    <h:inputText id="categoria" value="#{inventarioController.selected.categoria}" title="#{bundle.CreateInventarioTitle_categoria}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_categoria}"/>
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_cantidad}" for="cantidad" />
+                    <h:inputText id="cantidad" value="#{inventarioController.selected.cantidad}" title="#{bundle.CreateInventarioTitle_cantidad}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_cantidad}"/>
+                    <h:outputLabel value="#{bundle.CreateInventarioLabel_estado}" for="estado" />
+                    <h:inputText id="estado" value="#{inventarioController.selected.estado}" title="#{bundle.CreateInventarioTitle_estado}" required="true" requiredMessage="#{bundle.CreateInventarioRequiredMessage_estado}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{inventarioController.create}" value="#{bundle.CreateInventarioSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{inventarioController.prepareList}" value="#{bundle.CreateInventarioShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateInventarioIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

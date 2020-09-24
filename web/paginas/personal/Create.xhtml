@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreatePersonalTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_idpersonal}" for="idpersonal" />
+                    <h:inputText id="idpersonal" value="#{personalController.selected.idpersonal}" title="#{bundle.CreatePersonalTitle_idpersonal}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_idpersonal}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_nombres}" for="nombres" />
+                    <h:inputText id="nombres" value="#{personalController.selected.nombres}" title="#{bundle.CreatePersonalTitle_nombres}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_nombres}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_apellidos}" for="apellidos" />
+                    <h:inputText id="apellidos" value="#{personalController.selected.apellidos}" title="#{bundle.CreatePersonalTitle_apellidos}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_apellidos}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_dirección}" for="dirección" />
+                    <h:inputText id="dirección" value="#{personalController.selected.dirección}" title="#{bundle.CreatePersonalTitle_dirección}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_dirección}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_celular1}" for="celular1" />
+                    <h:inputText id="celular1" value="#{personalController.selected.celular1}" title="#{bundle.CreatePersonalTitle_celular1}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_celular1}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_celular2}" for="celular2" />
+                    <h:inputText id="celular2" value="#{personalController.selected.celular2}" title="#{bundle.CreatePersonalTitle_celular2}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_celular2}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_correoElectronico}" for="correoElectronico" />
+                    <h:inputText id="correoElectronico" value="#{personalController.selected.correoElectronico}" title="#{bundle.CreatePersonalTitle_correoElectronico}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_correoElectronico}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_tipodeIdentificación}" for="tipodeIdentificación" />
+                    <h:inputText id="tipodeIdentificación" value="#{personalController.selected.tipodeIdentificación}" title="#{bundle.CreatePersonalTitle_tipodeIdentificación}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_tipodeIdentificación}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_númerodeIdentificación}" for="númerodeIdentificación" />
+                    <h:inputText id="númerodeIdentificación" value="#{personalController.selected.númerodeIdentificación}" title="#{bundle.CreatePersonalTitle_númerodeIdentificación}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_númerodeIdentificación}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_cargo}" for="cargo" />
+                    <h:inputText id="cargo" value="#{personalController.selected.cargo}" title="#{bundle.CreatePersonalTitle_cargo}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_cargo}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_genero}" for="genero" />
+                    <h:inputText id="genero" value="#{personalController.selected.genero}" title="#{bundle.CreatePersonalTitle_genero}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_genero}"/>
+                    <h:outputLabel value="#{bundle.CreatePersonalLabel_fechadeNacimiento}" for="fechadeNacimiento" />
+                    <h:inputText id="fechadeNacimiento" value="#{personalController.selected.fechadeNacimiento}" title="#{bundle.CreatePersonalTitle_fechadeNacimiento}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_fechadeNacimiento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{personalController.create}" value="#{bundle.CreatePersonalSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{personalController.prepareList}" value="#{bundle.CreatePersonalShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreatePersonalIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

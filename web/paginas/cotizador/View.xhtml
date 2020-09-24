@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewCotizadorTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewCotizadorLabel_nombredelcliente}"/>
+                    <h:outputText value="#{cotizadorController.selected.nombredelcliente}" title="#{bundle.ViewCotizadorTitle_nombredelcliente}"/>
+                    <h:outputText value="#{bundle.ViewCotizadorLabel_condicióndepago}"/>
+                    <h:outputText value="#{cotizadorController.selected.condicióndepago}" title="#{bundle.ViewCotizadorTitle_condicióndepago}"/>
+                    <h:outputText value="#{bundle.ViewCotizadorLabel_fechadeentrega}"/>
+                    <h:outputText value="#{cotizadorController.selected.fechadeentrega}" title="#{bundle.ViewCotizadorTitle_fechadeentrega}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewCotizadorLabel_validesdelaoferta}"/>
+                    <h:outputText value="#{cotizadorController.selected.validesdelaoferta}" title="#{bundle.ViewCotizadorTitle_validesdelaoferta}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewCotizadorLabel_tipodeevento}"/>
+                    <h:outputText value="#{cotizadorController.selected.tipodeevento}" title="#{bundle.ViewCotizadorTitle_tipodeevento}"/>
+                    <h:outputText value="#{bundle.ViewCotizadorLabel_petición}"/>
+                    <h:outputText value="#{cotizadorController.selected.petición}" title="#{bundle.ViewCotizadorTitle_petición}"/>
+                    <h:outputText value="#{bundle.ViewCotizadorLabel_idcotizador}"/>
+                    <h:outputText value="#{cotizadorController.selected.idcotizador}" title="#{bundle.ViewCotizadorTitle_idcotizador}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{cotizadorController.destroyAndView}" value="#{bundle.ViewCotizadorDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewCotizadorEditLink}"/>
+                <br />
+                <h:commandLink action="#{cotizadorController.prepareCreate}" value="#{bundle.ViewCotizadorCreateLink}" />
+                <br />
+                <h:commandLink action="#{cotizadorController.prepareList}" value="#{bundle.ViewCotizadorShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewCotizadorIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

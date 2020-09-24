@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateCotizadorTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_nombredelcliente}" for="nombredelcliente" />
+                    <h:inputText id="nombredelcliente" value="#{cotizadorController.selected.nombredelcliente}" title="#{bundle.CreateCotizadorTitle_nombredelcliente}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_nombredelcliente}"/>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_condicióndepago}" for="condicióndepago" />
+                    <h:inputText id="condicióndepago" value="#{cotizadorController.selected.condicióndepago}" title="#{bundle.CreateCotizadorTitle_condicióndepago}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_condicióndepago}"/>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_fechadeentrega}" for="fechadeentrega" />
+                    <h:inputText id="fechadeentrega" value="#{cotizadorController.selected.fechadeentrega}" title="#{bundle.CreateCotizadorTitle_fechadeentrega}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_fechadeentrega}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_validesdelaoferta}" for="validesdelaoferta" />
+                    <h:inputText id="validesdelaoferta" value="#{cotizadorController.selected.validesdelaoferta}" title="#{bundle.CreateCotizadorTitle_validesdelaoferta}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_validesdelaoferta}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_tipodeevento}" for="tipodeevento" />
+                    <h:inputText id="tipodeevento" value="#{cotizadorController.selected.tipodeevento}" title="#{bundle.CreateCotizadorTitle_tipodeevento}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_tipodeevento}"/>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_petición}" for="petición" />
+                    <h:inputText id="petición" value="#{cotizadorController.selected.petición}" title="#{bundle.CreateCotizadorTitle_petición}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_petición}"/>
+                    <h:outputLabel value="#{bundle.CreateCotizadorLabel_idcotizador}" for="idcotizador" />
+                    <h:inputText id="idcotizador" value="#{cotizadorController.selected.idcotizador}" title="#{bundle.CreateCotizadorTitle_idcotizador}" required="true" requiredMessage="#{bundle.CreateCotizadorRequiredMessage_idcotizador}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{cotizadorController.create}" value="#{bundle.CreateCotizadorSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{cotizadorController.prepareList}" value="#{bundle.CreateCotizadorShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateCotizadorIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
