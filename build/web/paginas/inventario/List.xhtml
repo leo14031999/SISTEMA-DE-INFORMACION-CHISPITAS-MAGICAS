@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListInventarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListInventarioEmpty}" rendered="#{inventarioController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{inventarioController.items.rowCount > 0}">
+                    <h:outputText value="#{inventarioController.pagination.pageFirstItem + 1}..#{inventarioController.pagination.pageLastItem + 1}/#{inventarioController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{inventarioController.previous}" value="#{bundle.Previous} #{inventarioController.pagination.pageSize}" rendered="#{inventarioController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{inventarioController.next}" value="#{bundle.Next} #{inventarioController.pagination.pageSize}" rendered="#{inventarioController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{inventarioController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_idinventario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idinventario}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_nombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_marca}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.marca}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_accesorios}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.accesorios}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_proveedor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.proveedor}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_telefono}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.telefono}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_ubicación}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ubicación}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_categoria}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.categoria}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_cantidad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cantidad}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInventarioTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{inventarioController.prepareView}" value="#{bundle.ListInventarioViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{inventarioController.prepareEdit}" value="#{bundle.ListInventarioEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{inventarioController.destroy}" value="#{bundle.ListInventarioDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{inventarioController.prepareCreate}" value="#{bundle.ListInventarioCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListInventarioIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

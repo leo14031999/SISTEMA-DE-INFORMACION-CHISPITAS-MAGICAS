@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditPagosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditPagosLabel_idpagos}" for="idpagos" />
+                    <h:inputText id="idpagos" value="#{pagosController.selected.idpagos}" title="#{bundle.EditPagosTitle_idpagos}" required="true" requiredMessage="#{bundle.EditPagosRequiredMessage_idpagos}"/>
+                    <h:outputLabel value="#{bundle.EditPagosLabel_nombrecliente}" for="nombrecliente" />
+                    <h:inputText id="nombrecliente" value="#{pagosController.selected.nombrecliente}" title="#{bundle.EditPagosTitle_nombrecliente}" required="true" requiredMessage="#{bundle.EditPagosRequiredMessage_nombrecliente}"/>
+                    <h:outputLabel value="#{bundle.EditPagosLabel_tipodocumento}" for="tipodocumento" />
+                    <h:inputText id="tipodocumento" value="#{pagosController.selected.tipodocumento}" title="#{bundle.EditPagosTitle_tipodocumento}" required="true" requiredMessage="#{bundle.EditPagosRequiredMessage_tipodocumento}"/>
+                    <h:outputLabel value="#{bundle.EditPagosLabel_numeroidentificacion}" for="numeroidentificacion" />
+                    <h:inputText id="numeroidentificacion" value="#{pagosController.selected.numeroidentificacion}" title="#{bundle.EditPagosTitle_numeroidentificacion}" required="true" requiredMessage="#{bundle.EditPagosRequiredMessage_numeroidentificacion}"/>
+                    <h:outputLabel value="#{bundle.EditPagosLabel_tipoevento}" for="tipoevento" />
+                    <h:inputText id="tipoevento" value="#{pagosController.selected.tipoevento}" title="#{bundle.EditPagosTitle_tipoevento}" required="true" requiredMessage="#{bundle.EditPagosRequiredMessage_tipoevento}"/>
+                    <h:outputLabel value="#{bundle.EditPagosLabel_personalencargado}" for="personalencargado" />
+                    <h:inputText id="personalencargado" value="#{pagosController.selected.personalencargado}" title="#{bundle.EditPagosTitle_personalencargado}" required="true" requiredMessage="#{bundle.EditPagosRequiredMessage_personalencargado}"/>
+                    <h:outputLabel value="#{bundle.EditPagosLabel_valortotal}" for="valortotal" />
+                    <h:inputText id="valortotal" value="#{pagosController.selected.valortotal}" title="#{bundle.EditPagosTitle_valortotal}" required="true" requiredMessage="#{bundle.EditPagosRequiredMessage_valortotal}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{pagosController.update}" value="#{bundle.EditPagosSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditPagosViewLink}"/>
+                <br />
+                <h:commandLink action="#{pagosController.prepareList}" value="#{bundle.EditPagosShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditPagosIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

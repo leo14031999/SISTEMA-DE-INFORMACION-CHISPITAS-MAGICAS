@@ -5,22 +5,17 @@
  */
 package dao;
 
-import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
-import dao.exceptions.PreexistingEntityException;
 import dao.exceptions.RollbackFailureException;
 import entidades.Cliente;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entidades.Pagos;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
 
 /**
@@ -40,39 +35,18 @@ public class ClienteJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Cliente cliente) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (cliente.getPagosCollection() == null) {
-            cliente.setPagosCollection(new ArrayList<Pagos>());
-        }
+    public void create(Cliente cliente) throws RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            Collection<Pagos> attachedPagosCollection = new ArrayList<Pagos>();
-            for (Pagos pagosCollectionPagosToAttach : cliente.getPagosCollection()) {
-                pagosCollectionPagosToAttach = em.getReference(pagosCollectionPagosToAttach.getClass(), pagosCollectionPagosToAttach.getIdpagos());
-                attachedPagosCollection.add(pagosCollectionPagosToAttach);
-            }
-            cliente.setPagosCollection(attachedPagosCollection);
             em.persist(cliente);
-            for (Pagos pagosCollectionPagos : cliente.getPagosCollection()) {
-                Cliente oldIdclienteOfPagosCollectionPagos = pagosCollectionPagos.getIdcliente();
-                pagosCollectionPagos.setIdcliente(cliente);
-                pagosCollectionPagos = em.merge(pagosCollectionPagos);
-                if (oldIdclienteOfPagosCollectionPagos != null) {
-                    oldIdclienteOfPagosCollectionPagos.getPagosCollection().remove(pagosCollectionPagos);
-                    oldIdclienteOfPagosCollectionPagos = em.merge(oldIdclienteOfPagosCollectionPagos);
-                }
-            }
             utx.commit();
         } catch (Exception ex) {
             try {
                 utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findCliente(cliente.getIdcliente()) != null) {
-                throw new PreexistingEntityException("Cliente " + cliente + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -82,45 +56,12 @@ public class ClienteJpaController implements Serializable {
         }
     }
 
-    public void edit(Cliente cliente) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Cliente cliente) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            Cliente persistentCliente = em.find(Cliente.class, cliente.getIdcliente());
-            Collection<Pagos> pagosCollectionOld = persistentCliente.getPagosCollection();
-            Collection<Pagos> pagosCollectionNew = cliente.getPagosCollection();
-            List<String> illegalOrphanMessages = null;
-            for (Pagos pagosCollectionOldPagos : pagosCollectionOld) {
-                if (!pagosCollectionNew.contains(pagosCollectionOldPagos)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Pagos " + pagosCollectionOldPagos + " since its idcliente field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<Pagos> attachedPagosCollectionNew = new ArrayList<Pagos>();
-            for (Pagos pagosCollectionNewPagosToAttach : pagosCollectionNew) {
-                pagosCollectionNewPagosToAttach = em.getReference(pagosCollectionNewPagosToAttach.getClass(), pagosCollectionNewPagosToAttach.getIdpagos());
-                attachedPagosCollectionNew.add(pagosCollectionNewPagosToAttach);
-            }
-            pagosCollectionNew = attachedPagosCollectionNew;
-            cliente.setPagosCollection(pagosCollectionNew);
             cliente = em.merge(cliente);
-            for (Pagos pagosCollectionNewPagos : pagosCollectionNew) {
-                if (!pagosCollectionOld.contains(pagosCollectionNewPagos)) {
-                    Cliente oldIdclienteOfPagosCollectionNewPagos = pagosCollectionNewPagos.getIdcliente();
-                    pagosCollectionNewPagos.setIdcliente(cliente);
-                    pagosCollectionNewPagos = em.merge(pagosCollectionNewPagos);
-                    if (oldIdclienteOfPagosCollectionNewPagos != null && !oldIdclienteOfPagosCollectionNewPagos.equals(cliente)) {
-                        oldIdclienteOfPagosCollectionNewPagos.getPagosCollection().remove(pagosCollectionNewPagos);
-                        oldIdclienteOfPagosCollectionNewPagos = em.merge(oldIdclienteOfPagosCollectionNewPagos);
-                    }
-                }
-            }
             utx.commit();
         } catch (Exception ex) {
             try {
@@ -143,7 +84,7 @@ public class ClienteJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             utx.begin();
@@ -154,17 +95,6 @@ public class ClienteJpaController implements Serializable {
                 cliente.getIdcliente();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The cliente with id " + id + " no longer exists.", enfe);
-            }
-            List<String> illegalOrphanMessages = null;
-            Collection<Pagos> pagosCollectionOrphanCheck = cliente.getPagosCollection();
-            for (Pagos pagosCollectionOrphanCheckPagos : pagosCollectionOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Cliente (" + cliente + ") cannot be destroyed since the Pagos " + pagosCollectionOrphanCheckPagos + " in its pagosCollection field has a non-nullable idcliente field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(cliente);
             utx.commit();
